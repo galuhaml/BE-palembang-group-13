@@ -31,24 +31,6 @@ const HomeMateri = sequelize.define('home_materi', {
     timestamps: false
     });
 
-const HomeSoal = sequelize.define('home_soal', {
-    // Model attributes are defined here
-    no_soal: {
-        type: DataTypes.STRING,
-        allowNull: false 
-    },
-    preview: {
-        type: DataTypes.STRING
-        // allowNull defaults to true
-    },
-    slogan: {
-        type: DataTypes.STRING
-    }
-}, {
-    tableName: 'home_soal',
-    timestamps: false
-    });
-
 const Ourteam = sequelize.define('ourteam', {
     // Model attributes are defined here
     nama: {
@@ -85,6 +67,17 @@ const SoalDua = sequelize.define('soal_dua', {
     tableName: 'soal_dua',
     timestamps: false
     });
+
+    const SoalTiga = sequelize.define('soal_tiga', {
+        // Model attributes are defined here
+        jawaban: {
+            type: DataTypes.STRING,
+            allowNull: false
+        }
+    }, {
+        tableName: 'soal_tiga',
+        timestamps: false
+        });
 
 const jalankanServer = async() => {
     try{
@@ -132,6 +125,21 @@ const jalankanServer = async() => {
 
             let soal_dua = await SoalDua.findAll();
             res.json(soal_dua);
+        })
+
+        app.post('/soal-tiga', async(req, res) => {
+            let data = req.body;
+            let a = await SoalTiga.create({
+                jawaban: data.jawaban,
+            })
+            res.json(a)
+        });
+
+        app.get('/jawaban-soal-tiga', async(req, res) => {
+            //res.send('Hello World!')
+
+            let soal_tiga = await SoalTiga.findAll();
+            res.json(soal_tiga);
         })
           
         app.listen(port, () => {
